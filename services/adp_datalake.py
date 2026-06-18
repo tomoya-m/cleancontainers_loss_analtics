@@ -2,9 +2,10 @@ import datetime
 import io
 import logging
 
-from azure.identity import DefaultAzureCredential
 from azure.storage.blob import ContainerClient
 import pandas
+
+from azure_credential import get_credential
 
 
 class AdpDataLake:
@@ -25,12 +26,14 @@ class AdpDataLake:
         """
         self.logger = logging.getLogger(__name__)
 
+        # Azureの認証情報を取得する。
+        self.credential = get_credential()
+
         # ContainerClientを取得する。
         account_url = f"https://{storage_account_name}.blob.core.windows.net"
         self.container_client = self._get_container_client(
             account_url=account_url,
             container_name=container_name,
-            credential=DefaultAzureCredential()
         )
 
 
@@ -38,7 +41,6 @@ class AdpDataLake:
         self,
         account_url: str,
         container_name: str,
-        credential: DefaultAzureCredential
     ) -> ContainerClient:
         """
         ContainerClientを取得する。
@@ -49,8 +51,6 @@ class AdpDataLake:
             - ストレージアカウントのURL
         - container_name: str
             - コンテナーの名前
-        - credential: DefaultAzureCredential
-            - 認証情報
 
         Returns
         -------
@@ -60,7 +60,7 @@ class AdpDataLake:
         return ContainerClient(
             account_url=account_url,
             container_name=container_name,
-            credential=credential
+            credential=self.credential
         )
 
 
