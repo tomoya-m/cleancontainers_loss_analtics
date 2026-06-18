@@ -8,4 +8,5 @@ dependencies = [
     "azure-identity>=1.25.3",
     "azure-storage-blob>=12.30.0",
     "pandas>=3.0.3",
+    "pyodbc>=5.1.0",
 ]
