@@ -6,7 +6,10 @@ from typing import Sequence
 import pandas
 import pyodbc
 
-from azure_credential import get_credential
+try:
+    from .azure_credential import get_credential
+except ImportError:
+    from azure_credential import get_credential
 
 
 class CleanContainersDb:
